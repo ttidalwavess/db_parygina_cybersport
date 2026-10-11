@@ -51,6 +51,7 @@ erDiagram
     players ||--o{ team_members : "состоит"
     teams ||--o{ participating_teams : "участвует"
     tournaments ||--o{ participating_teams : "принимает команды"
+    
 
     roles {
         integer id PK
@@ -83,7 +84,7 @@ erDiagram
         text tournament_name UK
         date start_day
         date end_day
-        boolean ongoing
+        status tournament_status
     }
 
     participating_teams {
@@ -94,10 +95,15 @@ erDiagram
 
 ## Ограничения
 
-| Ограничение | Таблица и колонки | Зачем |
-| --- | --- | --- |
-| `UNIQUE` | ... | ... |
-| `CHECK` | ... | ... |
+| Ограничение | Таблица и колонки                     | Зачем                                                   |
+|-------------|---------------------------------------|---------------------------------------------------------|
+| `UNIQUE`    | roles - `role_name`                   | Роли не могут дублироваться                             |
+|             | teams - `team_name`                   | Все команды должны быть разные                          |
+|             | players - `nickname`                  | Игрок не должен содержаться в базе больше 1 раза        |
+|             | tournaments - `tournament_name`       | Турниры не должны дублироваться                         |
+| `CHECK`     | team_members: `start_play < end_play` | Старт карьеры не может произойти позже ухода из команды |
+|             | tournaments: `start_day < end_day`    | Турнир не может начаться позже даты окончания           |
+
 
 ## Что сделано по лабам
 
