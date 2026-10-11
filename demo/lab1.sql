@@ -21,6 +21,36 @@
 -- INSERT INTO tickets (session_id, seat_id, price) VALUES (1, 1, 300);
 
 
-app=# INSERT INTO teams (team_name) VALUES ('Team Spirit');
-ERROR:  duplicate key value violates unique constraint "teams_team_name_key"
-DETAIL:  Key (team_name)=(Team Spirit) already exists.
+INSERT INTO teams (team_name) VALUES ('Team Spirit');
+-- ERROR:  duplicate key value violates unique constraint "teams_team_name_key"
+-- DETAIL:  Key (team_name)=(Team Spirit) already exists.
+
+
+INSERT INTO players (first_name, second_name, nickname) VALUES ('Morgan', 'Swift', 'Axiom');
+-- ERROR:  duplicate key value violates unique constraint "players_nickname_key"
+-- DETAIL:  Key (nickname)=(Axiom) already exists.
+
+
+INSERT INTO team_members
+(player_id, role_in_team, team_id, start_play, end_play)
+SELECT
+    p.id,
+    r.id,
+    t.id,
+    v.start_play::date,
+    v.end_play::date
+FROM (
+         VALUES ('Gatsby', 'carry', 'Team Yandex', '2024-01-01', '2023-01-01')
+     ) AS v(nickname, role_name, team_name, start_play, end_play)
+         JOIN players p ON p.nickname = v.nickname
+         JOIN roles r ON r.role_name = v.role_name
+         JOIN teams t ON t.team_name = v.team_name;
+
+-- ERROR:  new row for relation "team_members" violates check constraint "team_members_check"
+-- DETAIL:  Failing row contains (22, 1, 10, 2024-01-01, 2023-01-01).
+
+
+INSERT INTO tournaments (id, tournament_name, start_day, end_day, ongoing) VALUES (99, 'Hackaton2000', '2026-05-07', '2026-08-09', 'false');
+-- ERROR:  cannot insert a non-DEFAULT value into column "id"
+-- DETAIL:  Column "id" is an identity column defined as GENERATED ALWAYS.
+-- HINT:  Use OVERRIDING SYSTEM VALUE to override.
