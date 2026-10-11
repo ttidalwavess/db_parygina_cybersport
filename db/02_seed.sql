@@ -82,13 +82,12 @@ FROM (
 
 
 
-INSERT INTO tournaments (tournament_name, start_day, end_day, ongoing) VALUES
-    ('Winter Clash',       '2024-01-10', '2024-01-20', false),
-    ('Spring Championship','2024-03-05', '2024-03-18', false),
-    ('Pro League',         '2024-05-01', '2024-05-30', false),
-    ('Summer Masters',     '2024-07-10', '2024-07-25', false),
-     ('World Cyber Cup',    '2024-09-01', '2024-09-20', false);
-
+INSERT INTO tournaments (tournament_name, start_day, end_day, status) VALUES
+    ('Winter Clash', '2026-01-10', '2026-01-15', 'completed'),
+    ('Spring Championship', '2026-03-01', '2026-03-10', 'completed'),
+    ('Pro League', '2026-07-01', '2026-07-15', 'ongoing'),
+    ('Summer Masters', '2026-08-01', '2026-08-10', 'completed'),
+    ('World Cyber Cup', '2026-12-01', '2026-12-15', 'planned');
 
 
 INSERT INTO participating_teams (teams_playing, contest_name)
