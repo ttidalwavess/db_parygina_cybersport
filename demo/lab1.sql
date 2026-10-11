@@ -19,3 +19,8 @@
 -- -- 4. То же место на тот же сеанс второй раз: ошибка UNIQUE
 -- -- expect: error unique
 -- INSERT INTO tickets (session_id, seat_id, price) VALUES (1, 1, 300);
+
+
+app=# INSERT INTO teams (team_name) VALUES ('Team Spirit');
+ERROR:  duplicate key value violates unique constraint "teams_team_name_key"
+DETAIL:  Key (team_name)=(Team Spirit) already exists.

@@ -18,7 +18,6 @@ CREATE TABLE players (
     id      integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     first_name text NOT NULL,
     second_name text NOT NULL,
-    third_name text NOT NULL,
     nickname text NOT NULL UNIQUE
 );
 
