@@ -31,12 +31,19 @@ CREATE TABLE team_members (
     PRIMARY KEY (player_id, role_in_team, team_id, start_play, end_play)
 );
 
+CREATE TYPE tournament_status AS ENUM (
+    'planned',
+    'ongoing',
+    'completed',
+    'cancelled'
+);
+
 CREATE TABLE tournaments (
     id integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     tournament_name text NOT NULL UNIQUE,
     start_day date NOT NULL,
     end_day date NOT NULL,
-    ongoing boolean NOT NULL DEFAULT false,
+    status tournament_status NOT NULL DEFAULT 'planned',
     CHECK (start_day < end_day)
 );
 
