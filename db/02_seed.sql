@@ -55,26 +55,26 @@ SELECT
     v.end_play::date
 FROM (
          VALUES
-             ('Axiom',   'carry',         'OG',            '2024-01-01', '2024-07-01'),
-             ('Dusk',    'midlaner',      'OG',            '2024-01-01', '2024-07-01'),
-             ('Vortex',  'carry',         'Team Liquid',   '2024-02-01', '2024-08-01'),
-             ('Blaze',   'offlaner',      'Team Liquid',   '2024-02-01', '2024-08-01'),
-             ('Frost',   'carry',         'Team Spirit',   '2024-03-01', '2024-09-01'),
-             ('Titan',   'midlaner',      'Team Spirit',   '2024-03-01', '2024-09-01'),
-             ('Echo',    'hard_support',  'LGD Gaming',    '2024-01-15', '2024-06-15'),
-             ('Raven',   'soft support',  'LGD Gaming',    '2024-01-15', '2024-06-15'),
-             ('Phantom', 'carry',         'Virtus.pro',    '2024-04-01', '2024-10-01'),
-             ('Nova',    'midlaner',      'Virtus.pro',    '2024-04-01', '2024-10-01'),
-             ('Storm',   'offlaner',      'Natus Vincere', '2024-02-01', '2024-08-01'),
-             ('Ghost',   'hard_support',  'Natus Vincere', '2024-02-01', '2024-08-01'),
-             ('Shadow',  'carry',         'BetBoom Team',  '2024-05-01', '2024-11-01'),
-             ('Inferno', 'soft support',  'BetBoom Team',  '2024-05-01', '2024-11-01'),
-             ('Venom',   'midlaner',      'PARIVISION',    '2024-03-01', '2024-09-01'),
-             ('Falcon',  'offlaner',      'PARIVISION',    '2024-03-01', '2024-09-01'),
-             ('Cobra',   'carry',         'Xtreme Gaming', '2024-01-01', '2024-07-01'),
-             ('Orbit',   'hard_support',  'Xtreme Gaming', '2024-01-01', '2024-07-01'),
-             ('Pixel',   'midlaner',      'Team Yandex',   '2024-06-01', '2024-12-01'),
-             ('Zen',     'soft support',  'Team Yandex',   '2024-06-01', '2024-12-01')
+             ('Axiom',   'carry',         'OG',            '2024-01-01 10:00:00+00', '2024-07-01 10:00:00+00'),
+             ('Dusk',    'midlaner',      'OG',            '2024-01-01 10:00:00+00', '2024-07-01 10:00:00+00'),
+             ('Vortex',  'carry',         'Team Liquid',   '2024-02-01 10:00:00+00', '2024-08-01 10:00:00+00'),
+             ('Blaze',   'offlaner',      'Team Liquid',   '2024-02-01 10:00:00+00', '2024-08-01 10:00:00+00'),
+             ('Frost',   'carry',         'Team Spirit',   '2024-03-01 10:00:00+00', '2024-09-01 10:00:00+00'),
+             ('Titan',   'midlaner',      'Team Spirit',   '2024-03-01 10:00:00+00', '2024-09-01 10:00:00+00'),
+             ('Echo',    'hard_support',  'LGD Gaming',    '2024-01-15 10:00:00+00', '2024-06-15 10:00:00+00'),
+             ('Raven',   'soft support',  'LGD Gaming',    '2024-01-15 10:00:00+00', '2024-06-15 10:00:00+00'),
+             ('Phantom', 'carry',         'Virtus.pro',    '2024-04-01 10:00:00+00', '2024-10-01 10:00:00+00'),
+             ('Nova',    'midlaner',      'Virtus.pro',    '2024-04-01 10:00:00+00', '2024-10-01 10:00:00+00'),
+             ('Storm',   'offlaner',      'Natus Vincere', '2024-02-01 10:00:00+00', '2024-08-01 10:00:00+00'),
+             ('Ghost',   'hard_support',  'Natus Vincere', '2024-02-01 10:00:00+00', '2024-08-01 10:00:00+00'),
+             ('Shadow',  'carry',         'BetBoom Team',  '2024-05-01 10:00:00+00', '2024-11-01 10:00:00+00'),
+             ('Inferno', 'soft support',  'BetBoom Team',  '2024-05-01 10:00:00+00', '2024-11-01 10:00:00+00'),
+             ('Venom',   'midlaner',      'PARIVISION',    '2024-03-01 10:00:00+00', '2024-09-01 10:00:00+00'),
+             ('Falcon',  'offlaner',      'PARIVISION',    '2024-03-01 10:00:00+00', '2024-09-01 10:00:00+00'),
+             ('Cobra',   'carry',         'Xtreme Gaming', '2024-01-01 10:00:00+00', '2024-07-01 10:00:00+00'),
+             ('Orbit',   'hard_support',  'Xtreme Gaming', '2024-01-01 10:00:00+00', '2024-07-01 10:00:00+00'),
+             ('Pixel',   'midlaner',      'Team Yandex',   '2024-06-01 10:00:00+00', '2024-12-01 10:00:00+00'),
+             ('Zen',     'soft support',  'Team Yandex',   '2024-06-01 10:00:00+00', '2024-12-01 10:00:00+00')
      ) AS v(nickname, role_name, team_name, start_play, end_play)
          JOIN players p ON p.nickname = v.nickname
          JOIN roles r ON r.role_name = v.role_name
@@ -83,11 +83,11 @@ FROM (
 
 
 INSERT INTO tournaments (tournament_name, start_day, end_day, status) VALUES
-    ('Winter Clash', '2026-01-10', '2026-01-15', 'completed'),
-    ('Spring Championship', '2026-03-01', '2026-03-10', 'completed'),
-    ('Pro League', '2026-07-01', '2026-07-15', 'ongoing'),
-    ('Summer Masters', '2026-08-01', '2026-08-10', 'completed'),
-    ('World Cyber Cup', '2026-12-01', '2026-12-15', 'planned');
+    ('Winter Clash', '2026-01-10 10:00:00+00', '2026-01-15 10:00:00+00', 'completed'),
+    ('Spring Championship', '2026-03-01 10:00:00+00', '2026-03-10 10:00:00+00', 'completed'),
+    ('Pro League', '2026-07-01 10:00:00+00', '2026-07-15 10:00:00+00', 'ongoing'),
+    ('Summer Masters', '2026-08-01 10:00:00+00', '2026-08-10 10:00:00+00', 'completed'),
+    ('World Cyber Cup', '2026-12-01 10:00:00+00', '2026-12-15 10:00:00+00', 'planned');
 
 
 INSERT INTO participating_teams (teams_playing, contest_name)
