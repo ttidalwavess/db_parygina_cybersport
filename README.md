@@ -96,12 +96,23 @@ erDiagram
 
 | Ограничение | Таблица и колонки                     | Зачем                                                   |
 |-------------|---------------------------------------|---------------------------------------------------------|
+| `NOT NULL`  | roles: `role_name`    | Роль должна иметь название           |
+|             | teams: `team_name`    | Команда должна иметь название           |
+|             | players: `first_name, second_name, nickname`    | Игрок должен иметь непустые имя, фамилию, никнейм           |
+|             | team_members: `player_id, role_in_team, team_id, start_play, end_play`    | База данных должна ссылаться на игроков по `player_id`, иначе она не сможет получить о нем данные           |
+|             | tournaments: `tournament_name, start_day, end_day, status`    | Турнир должен иметь название, даты начала и окончания и статус           |
+|             | participating_teams: `teams_playing, contest_name`    | База данных должна ссылаться на команды и турниры, иначе она не сможет получить о них данные           |
 | `UNIQUE`    | roles - `role_name`                   | Роли не могут дублироваться                             |
 |             | teams - `team_name`                   | Все команды должны быть разные                          |
 |             | players - `nickname`                  | Игрок не должен содержаться в базе больше 1 раза        |
 |             | tournaments - `tournament_name`       | Турниры не должны дублироваться                         |
 | `CHECK`     | team_members: `start_play < end_play` | Старт карьеры не может произойти позже ухода из команды |
 |             | tournaments: `start_day < end_day`    | Турнир не может начаться позже даты окончания           |
+| `FOREIGN KEY` | team_members: `player_id`    | Ссылается на `id` из таблицы `players`           |
+|               | team_members: `role_in_team`    | Ссылается на `id` из таблицы `roles`           |
+|               | team_members: `team_id`    | Ссылается на `id` из таблицы `teams`           |
+|               | participating_teams: `teams_playing`    | Ссылается на `id` из таблицы `teams`           |
+|               | participating_teams: `contest_name`    | Ссылается на `id` из таблицы `tournaments`           |
 
 
 ## Что сделано по лабам
