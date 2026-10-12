@@ -87,7 +87,14 @@ INSERT INTO tournaments (tournament_name, start_day, end_day, status) VALUES
     ('Spring Championship', '2026-03-01 10:00:00+00', '2026-03-10 10:00:00+00', 'completed'),
     ('Pro League', '2026-07-01 10:00:00+00', '2026-07-15 10:00:00+00', 'ongoing'),
     ('Summer Masters', '2026-08-01 10:00:00+00', '2026-08-10 10:00:00+00', 'completed'),
-    ('World Cyber Cup', '2026-12-01 10:00:00+00', '2026-12-15 10:00:00+00', 'planned');
+    ('World Cyber Cup', '2026-12-01 10:00:00+00', '2026-12-15 10:00:00+00', 'planned'),
+    ('Autumn Invitational', '2026-09-01 10:00:00+00', '2026-09-07 10:00:00+00', 'completed'),
+    ('European Cyber League', '2026-09-15 10:00:00+00', '2026-09-25 10:00:00+00', 'completed'),
+    ('Masters of Strategy', '2026-10-01 10:00:00+00', '2026-10-10 10:00:00+00', 'completed'),
+    ('Autumn Pro Series', '2026-10-15 10:00:00+00', '2026-10-25 10:00:00+00', 'ongoing'),
+    ('Northern Arena Cup', '2026-11-01 10:00:00+00', '2026-11-08 10:00:00+00', 'planned'),
+    ('Winter Pro League', '2026-11-15 10:00:00+00', '2026-11-25 10:00:00+00', 'planned'),
+    ('New Year Showdown', '2027-01-05 10:00:00+00', '2027-01-12 10:00:00+00', 'planned');
 
 
 INSERT INTO participating_teams (teams_playing, contest_name)
