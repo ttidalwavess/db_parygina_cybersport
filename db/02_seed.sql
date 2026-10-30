@@ -94,8 +94,8 @@ INSERT INTO tournaments (tournament_name, start_day, end_day, status) VALUES
     ('Autumn Pro Series', '2026-10-15 10:00:00+00', '2026-10-25 10:00:00+00', 'ongoing'),
     ('Northern Arena Cup', '2026-11-01 10:00:00+00', '2026-11-08 10:00:00+00', 'planned'),
     ('Winter Pro League', '2026-11-15 10:00:00+00', '2026-11-25 10:00:00+00', 'planned'),
-    ('New Year Showdown', '2027-01-05 10:00:00+00', '2027-01-12 10:00:00+00', 'planned');
-
+    ('New Year Showdown', '2027-01-05 10:00:00+00', '2027-01-12 10:00:00+00', 'planned'),
+    ('Boom Boom Clap 2027','2027-02-01 10:00:00+00','2027-02-07 10:00:00+00','planned');
 
 INSERT INTO participating_teams (teams_playing, contest_name)
 SELECT t.id, tr.id
