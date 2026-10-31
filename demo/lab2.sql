@@ -34,12 +34,12 @@ GROUP BY r.id, r.role_name
 ORDER BY roles_count DESC;
 
 
--- 5. В каких командах больше 5 игроков?
+-- 5. В каких командах больше 1 игроков?
 SELECT t.team_name, COUNT(tm.player_id) AS players_count
 FROM teams t
 JOIN team_members tm ON t.id = tm.team_id
 GROUP BY t.id, t.team_name
-HAVING COUNT(tm.player_id) > 5
+HAVING COUNT(tm.player_id) > 1
 ORDER BY players_count DESC;
 
 
