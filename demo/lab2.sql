@@ -98,12 +98,12 @@ ORDER BY players_count DESC;
 -- 10. Средняя продолжительность турнира: до и после продления турнира на 10%
 BEGIN;
 
-SELECT ROUND (AVG(EXTRACT(EPOCH FROM end_day - start_day)) // 86400, 2 )::numeric AS avg_duration_days
+SELECT ROUND (AVG(EXTRACT(EPOCH FROM end_day - start_day)) / 86400, 2 )::numeric AS avg_duration_days
 FROM tournaments;
 
 UPDATE tournaments SET end_day = start_day + (end_day - start_day) * 1.1 WHERE end_day > start_day;;
 
-SELECT ROUND (AVG(EXTRACT(EPOCH FROM end_day - start_day)) // 86400, 2 )::numeric AS avg_duration_days
+SELECT ROUND (AVG(EXTRACT(EPOCH FROM end_day - start_day)) / 86400, 2 )::numeric AS avg_duration_days
 FROM tournaments;
 
 ROLLBACK;
