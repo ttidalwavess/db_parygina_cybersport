@@ -17,7 +17,12 @@ INSERT INTO teams (team_name) VALUES
     ('BetBoom Team'),
     ('PARIVISION'),
     ('Xtreme Gaming'),
-    ('Team Yandex');
+    ('Team Yandex'),
+    ('Team Falcons'),
+    ('Gaimin Gladiators'),
+    ('Tundra Esports'),
+    ('Azure Ray'),
+    ('Shopify Rebellion');
 
 
 
@@ -42,7 +47,41 @@ INSERT INTO players (first_name, second_name, nickname) VALUES
     ('Alexander', 'Diaz', 'Orbit'),
     ('Daniel', 'Bell', 'Pixel'),
     ('Mark', 'Zuck', 'Sid'),
-    ('Matthew', 'Cook', 'Zen');
+    ('Matthew', 'Cook', 'Zen'),
+    ('Peter', 'Anderson', 'Cyclone'),
+    ('Brian', 'Murphy', 'Tempest'),
+    ('Edward', 'Harris', 'Crusher'),
+    ('George', 'Martin', 'Fenix'),
+
+    ('Scott', 'Thompson', 'Ragnar'),
+    ('Jason', 'White', 'Dominator'),
+    ('Paul', 'Hughes', 'Stealth'),
+    ('Ryan', 'Lewis', 'Fury'),
+    ('Adam', 'Roberts', 'Voltage'),
+
+    ('Dylan', 'Walker', 'Grim'),
+    ('Kyle', 'Hall', 'Wraith'),
+    ('Sean', 'Allen', 'Infernal'),
+    ('Justin', 'King', 'Thunder'),
+    ('Aaron', 'Lopez', 'Mirage'),
+    ('Brandon', 'Hill', 'Nemesis'),
+
+    ('Evan', 'Scott', 'Diablo'),
+    ('Connor', 'Green', 'Rift'),
+    ('Tyler', 'Baker', 'Zephyr'),
+    ('Jordan', 'Adams', 'Berserk'),
+    ('Cameron', 'Nelson', 'Ragnarok'),
+    ('Derek', 'Carter', 'Phaze'),
+
+    ('Marcus', 'Mitchell', 'Shogun'),
+    ('Trevor', 'Perez', 'Glitch'),
+    ('Austin', 'Robinson', 'InfernoX'),
+    ('Jeremy', 'Clark', 'Saber'),
+    ('Patrick', 'Lewis', 'Onyx'),
+    ('Keith', 'Young', 'Abyss'),
+    ('Victor', 'Turner', 'Nexus'),
+    ('Martin', 'Phillips', 'Chaos'),
+    ('Bruce', 'Campbell', 'Sentinel');
 
 
 
@@ -76,7 +115,45 @@ FROM (
              ('Sid',     'carry',  'Team Yandex',   '2024-06-01 10:00:00+00', '2024-12-01 10:00:00+00'),
              ('Orbit',   'hard_support',  'Xtreme Gaming', '2024-01-01 10:00:00+00', '2024-07-01 10:00:00+00'),
              ('Pixel',   'midlaner',      'Team Yandex',   '2024-06-01 10:00:00+00', '2024-12-01 10:00:00+00'),
-             ('Zen',     'soft support',  'Team Yandex',   '2024-06-01 10:00:00+00', '2024-12-01 10:00:00+00')
+             ('Zen',     'soft support',  'Team Yandex',   '2024-06-01 10:00:00+00', '2024-12-01 10:00:00+00'),
+             ('Cyclone',   'carry',         'Team Falcons',       '2025-01-01', '2025-12-01'),
+             ('Tempest',   'midlaner',      'Team Falcons',       '2025-01-01', '2025-12-01'),
+             ('Crusher',   'offlaner',      'Team Falcons',       '2025-01-01', '2025-12-01'),
+             ('Fenix',     'hard_support',  'Team Falcons',       '2025-01-01', '2025-12-01'),
+
+             -- Gaimin Gladiators: 5 участников
+             ('Ragnar',    'carry',         'Gaimin Gladiators',  '2025-02-01', '2025-12-01'),
+             ('Dominator', 'midlaner',      'Gaimin Gladiators',  '2025-02-01', '2025-12-01'),
+             ('Stealth',   'offlaner',      'Gaimin Gladiators',  '2025-02-01', '2025-12-01'),
+             ('Fury',      'soft support',  'Gaimin Gladiators',  '2025-02-01', '2025-12-01'),
+             ('Voltage',   'hard_support',  'Gaimin Gladiators',  '2025-02-01', '2025-12-01'),
+
+             -- Tundra Esports: 6 участников
+             ('Grim',      'carry',         'Tundra Esports',     '2025-03-01', '2025-12-01'),
+             ('Wraith',    'midlaner',      'Tundra Esports',     '2025-03-01', '2025-12-01'),
+             ('Infernal',  'offlaner',      'Tundra Esports',     '2025-03-01', '2025-12-01'),
+             ('Thunder',   'soft support',  'Tundra Esports',     '2025-03-01', '2025-12-01'),
+             ('Mirage',    'hard_support',  'Tundra Esports',     '2025-03-01', '2025-12-01'),
+             ('Nemesis',   'carry',         'Tundra Esports',     '2025-03-01', '2025-12-01'),
+
+             -- Azure Ray: 7 участников
+             ('Diablo',    'carry',         'Azure Ray',          '2025-04-01', '2025-12-01'),
+             ('Rift',      'midlaner',      'Azure Ray',          '2025-04-01', '2025-12-01'),
+             ('Zephyr',    'offlaner',      'Azure Ray',          '2025-04-01', '2025-12-01'),
+             ('Berserk',   'soft support',  'Azure Ray',          '2025-04-01', '2025-12-01'),
+             ('Ragnarok',  'hard_support',  'Azure Ray',          '2025-04-01', '2025-12-01'),
+             ('Phaze',     'carry',         'Azure Ray',          '2025-04-01', '2025-12-01'),
+             ('Shogun',    'midlaner',      'Azure Ray',          '2025-04-01', '2025-12-01'),
+
+             -- Shopify Rebellion: 8 участников
+             ('Glitch',    'carry',         'Shopify Rebellion',  '2025-05-01', '2025-12-01'),
+             ('InfernoX',  'midlaner',      'Shopify Rebellion',  '2025-05-01', '2025-12-01'),
+             ('Saber',     'offlaner',      'Shopify Rebellion',  '2025-05-01', '2025-12-01'),
+             ('Onyx',      'soft support',  'Shopify Rebellion',  '2025-05-01', '2025-12-01'),
+             ('Abyss',     'hard_support',  'Shopify Rebellion',  '2025-05-01', '2025-12-01'),
+             ('Nexus',     'carry',         'Shopify Rebellion',  '2025-05-01', '2025-12-01'),
+             ('Chaos',     'midlaner',      'Shopify Rebellion',  '2025-05-01', '2025-12-01'),
+             ('Sentinel',  'offlaner',      'Shopify Rebellion',  '2025-05-01', '2025-12-01')
      ) AS v(nickname, role_name, team_name, start_play, end_play)
          JOIN players p ON p.nickname = v.nickname
          JOIN roles r ON r.role_name = v.role_name
