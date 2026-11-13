@@ -1,20 +1,15 @@
 -- 1. Запрет регистрации команды на завершённый турнир
-CREATE OR REPLACE FUNCTION check_tournament_status()
-RETURNS trigger
-LANGUAGE plpgsql
+CREATE OR REPLACE FUNCTION check_tournament_status() RETURNS trigger LANGUAGE plpgsql
 AS $$
-DECLARE
-v_status tournament_status;
+DECLARE v_status tournament_status;
 BEGIN
-SELECT status
-INTO v_status
-FROM tournaments
-WHERE id = NEW.contest_name;
+    SELECT status
+    INTO v_status
+    FROM tournaments
+    WHERE id = NEW.contest_name;
 
-IF v_status = 'completed' THEN
-        RAISE EXCEPTION
-            'Нельзя зарегистрировать команду на завершённый турнир';
-END IF;
+    IF v_status = 'completed' THEN RAISE EXCEPTION 'Нельзя зарегистрировать команду на завершённый турнир';
+    END IF;
 
 RETURN NEW;
 END;
@@ -62,20 +57,21 @@ INSERT INTO team_members (
     end_play
 )
 VALUES (
-           p_player_id,
-           p_role_id,
-           p_team_id,
-           p_start_date,
-           p_end_date
-       );
+    p_player_id,
+    p_role_id,
+    p_team_id,
+    p_start_date,
+     p_end_date
+);
 
 RAISE NOTICE 'Игрок успешно добавлен в команду';
 END;
 $$;
 
+
 -- 4. Служебное поле updated_at и функция его обновления
 ALTER TABLE players
-    ADD COLUMN updated_at timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ADD COLUMN updated_at timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP;
 
 CREATE OR REPLACE FUNCTION update_timestamp()
 RETURNS trigger
@@ -111,8 +107,7 @@ SELECT
     t.status,
     COUNT(pt.teams_playing)::integer AS teams_count
 FROM tournaments t
-         LEFT JOIN participating_teams pt
-                   ON pt.contest_name = t.id
+LEFT JOIN participating_teams pt ON pt.contest_name = t.id
 WHERE p_status IS NULL OR t.status = p_status
 GROUP BY
     t.id,
@@ -120,8 +115,6 @@ GROUP BY
     t.start_day,
     t.end_day,
     t.status
-HAVING
-    p_min_teams IS NULL
-    OR COUNT(pt.teams_playing) >= p_min_teams
+HAVING p_min_teams IS NULL OR COUNT(pt.teams_playing) >= p_min_teams
 ORDER BY t.start_day;
 $$;

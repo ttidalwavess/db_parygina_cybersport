@@ -11,9 +11,9 @@ ORDER BY tournament_name, team_name;
 -- expect: error "Нельзя зарегистрировать команду на завершённый турнир"
 INSERT INTO participating_teams (teams_playing, contest_name)
 VALUES (
-           (SELECT id FROM teams WHERE team_name = 'OG'),
-           (SELECT id FROM tournaments WHERE tournament_name = 'Winter Clash')
-       );
+    (SELECT id FROM teams WHERE team_name = 'OG'),
+    (SELECT id FROM tournaments WHERE tournament_name = 'Winter Clash')
+);
 
 -- Сценарий 3. Материализованный отчёт до изменения
 SELECT * FROM tournament_report
@@ -22,9 +22,9 @@ ORDER BY tournament_id;
 -- Добавляем OG к запланированному турниру
 INSERT INTO participating_teams (teams_playing, contest_name)
 VALUES (
-           (SELECT id FROM teams WHERE team_name = 'OG'),
-           (SELECT id FROM tournaments WHERE tournament_name = 'World Cyber Cup')
-       );
+    (SELECT id FROM teams WHERE team_name = 'OG'),
+    (SELECT id FROM tournaments WHERE tournament_name = 'World Cyber Cup')
+);
 
 -- Обновляем материализованное представление
 REFRESH MATERIALIZED VIEW tournament_report;
@@ -88,10 +88,7 @@ SELECT * FROM filter_tournaments('completed');
 SELECT * FROM filter_tournaments(p_min_teams := 4);
 
 -- Текущие турниры минимум с четырьмя командами
-SELECT * FROM filter_tournaments(
-        p_status := 'ongoing',
-        p_min_teams := 4
-              );
+SELECT * FROM filter_tournaments(p_status := 'ongoing', p_min_teams := 4);
 
 
 ---------------------- ЖУРНАЛ ИЗМЕНЕНИЙ ----------------------
@@ -99,9 +96,7 @@ SELECT * FROM filter_tournaments(
 -- Проверяем журнал после изменения Axiom
 SELECT *
 FROM players_audit
-WHERE player_id = (
-    SELECT id FROM players WHERE nickname = 'Axiom'
-)
+WHERE player_id = (SELECT id FROM players WHERE nickname = 'Axiom')
 ORDER BY changed_at, id;
 
 -- Демонстрируем INSERT, UPDATE и DELETE на тестовом игроке.
@@ -125,39 +120,32 @@ SELECT
     changed_by,
     changed_at
 FROM players_audit
-WHERE COALESCE(old_data->>'nickname', new_data->>'nickname')
-          = 'AuditTestPlayer'
+WHERE COALESCE(old_data->>'nickname', new_data->>'nickname') = 'AuditTestPlayer'
 ORDER BY changed_at, id;
 
 -- Получаем состояние тестового игрока непосредственно перед удалением.
 -- После удаления функция должна вернуть NULL.
 SELECT player_state_at(
-               (
-                   SELECT player_id
-                   FROM players_audit
-                   WHERE COALESCE(old_data->>'nickname', new_data->>'nickname')
-                             = 'AuditTestPlayer'
-                   ORDER BY id
-                   LIMIT 1
-           ),
     (
-        SELECT changed_at - interval '1 microsecond'
-        FROM players_audit
-        WHERE operation = 'DELETE'
-          AND old_data->>'nickname' = 'AuditTestPlayer'
-        ORDER BY id DESC
-        LIMIT 1
-    )
+    SELECT player_id
+    FROM players_audit
+    WHERE COALESCE(old_data->>'nickname', new_data->>'nickname') = 'AuditTestPlayer'
+    ORDER BY id LIMIT 1
+    ),
+    (
+    SELECT changed_at - interval '1 microsecond'
+    FROM players_audit
+    WHERE operation = 'DELETE' AND old_data->>'nickname' = 'AuditTestPlayer'
+    ORDER BY id DESC LIMIT 1
+)
 ) AS state_before_delete;
 
 SELECT player_state_at(
-               (
-                   SELECT player_id
-                   FROM players_audit
-                   WHERE COALESCE(old_data->>'nickname', new_data->>'nickname')
-                             = 'AuditTestPlayer'
-                   ORDER BY id
-                   LIMIT 1
-           ),
+    (
+    SELECT player_id
+    FROM players_audit
+    WHERE COALESCE(old_data->>'nickname', new_data->>'nickname') = 'AuditTestPlayer'
+    ORDER BY id LIMIT 1
+    ),
     clock_timestamp()
 ) AS state_after_delete;

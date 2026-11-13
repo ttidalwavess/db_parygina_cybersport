@@ -117,7 +117,7 @@ INSERT INTO tournaments (tournament_name,start_day,end_day,status)
 VALUES ('Rookie Cup 2027','2027-02-01 10:00:00+00','2027-02-07 10:00:00+00','planned');
 
 SELECT * FROM tournaments WHERE tournament_name = 'Rookie Cup 2027';
-
+ROLLBACK;
 
 -- 12. Отменили турниры, не набравшие участвующих команд. Количество до и после
 BEGIN;
