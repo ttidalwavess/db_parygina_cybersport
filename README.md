@@ -4,15 +4,15 @@
   2. Заполните разделы ниже под свою тему и удалите этот комментарий.
 -->
 
-# Название проекта
+# Киберспортивная лига
 
-Тема № __: **...**. Одно предложение: какие данные хранит база и кому они нужны.
+База хранит данные о киберспортивных командах, их участниках, турнирах и матчах
 
 | | |
 | --- | --- |
-| Главная таблица | ... |
-| Связь N:M | ... и ... через `...` |
-| Бизнес-правило | ... |
+| Главная таблица | Players |
+| Связь N:M | Players и Teams через `data` |
+| Бизнес-правило | Игрок одновременно только в одной команде |
 | СУБД | PostgreSQL 17 в Docker |
 
 ## Задания курса
@@ -46,28 +46,74 @@ dbcheck run demo/lab1.sql     # сценарий лабы 1
 
 ```mermaid
 erDiagram
-    films ||--o{ sessions : "показывают"
-    halls ||--o{ sessions : "проходит в"
-    sessions ||--o{ tickets : "продано"
-    films ||--o{ film_genres : ""
-    genres ||--o{ film_genres : ""
+    roles ||--o{ team_members : "назначается"
+    teams ||--o{ team_members : "включает"
+    players ||--o{ team_members : "состоит"
+    teams ||--o{ participating_teams : "участвует"
+    tournaments ||--o{ participating_teams : "принимает команды"
+    
 
-    films {
-        int id PK
-        text title
+    roles {
+        integer id PK
+        text role_name UK
     }
-    film_genres {
-        int film_id PK, FK
-        int genre_id PK, FK
+
+    teams {
+        integer id PK
+        text team_name UK
+    }
+
+    players {
+        integer id PK
+        text first_name
+        text second_name
+        text nickname UK
+    }
+
+    team_members {
+        integer player_id PK, FK
+        integer role_in_team PK, FK
+        integer team_id PK, FK
+        date start_play PK
+        date end_play PK
+    }
+
+    tournaments {
+        integer id PK
+        text tournament_name UK
+        date start_day
+        date end_day
+        status tournament_status
+    }
+
+    participating_teams {
+        integer teams_playing PK, FK
+        integer contest_name PK, FK
     }
 ```
-
+Схема базы данных была доведена до 3НФ и следует ее требованиям: данные о командах, игроках, ролях и турнирах хранятся в отдельных таблицах; связующие таблицы содержат внешние ключи и атрибуты, относящиеся к соответствующим связям. Это позволяет избежать избыточного дублирования данных и аномалий при вставке, обновлении и удалении.
 ## Ограничения
 
-| Ограничение | Таблица и колонки | Зачем |
-| --- | --- | --- |
-| `UNIQUE` | ... | ... |
-| `CHECK` | ... | ... |
+| Ограничение | Таблица и колонки                     | Зачем                                                   |
+|-------------|---------------------------------------|---------------------------------------------------------|
+| `NOT NULL`  | roles: `role_name`    | Роль должна иметь название           |
+|             | teams: `team_name`    | Команда должна иметь название           |
+|             | players: `first_name, second_name, nickname`    | Игрок должен иметь непустые имя, фамилию, никнейм           |
+|             | team_members: `player_id, role_in_team, team_id, start_play, end_play`    | База данных должна ссылаться на игроков по `player_id`, иначе она не сможет получить о нем данные           |
+|             | tournaments: `tournament_name, start_day, end_day, status`    | Турнир должен иметь название, даты начала и окончания и статус           |
+|             | participating_teams: `teams_playing, contest_name`    | База данных должна ссылаться на команды и турниры, иначе она не сможет получить о них данные           |
+| `UNIQUE`    | roles - `role_name`                   | Роли не могут дублироваться                             |
+|             | teams - `team_name`                   | Все команды должны быть разные                          |
+|             | players - `nickname`                  | Игрок не должен содержаться в базе больше 1 раза        |
+|             | tournaments - `tournament_name`       | Турниры не должны дублироваться                         |
+| `CHECK`     | team_members: `start_play < end_play` | Старт карьеры не может произойти позже ухода из команды |
+|             | tournaments: `start_day < end_day`    | Турнир не может начаться позже даты окончания           |
+| `FOREIGN KEY` | team_members: `player_id`    | Ссылается на `id` из таблицы `players`           |
+|               | team_members: `role_in_team`    | Ссылается на `id` из таблицы `roles`           |
+|               | team_members: `team_id`    | Ссылается на `id` из таблицы `teams`           |
+|               | participating_teams: `teams_playing`    | Ссылается на `id` из таблицы `teams`           |
+|               | participating_teams: `contest_name`    | Ссылается на `id` из таблицы `tournaments`           |
+
 
 ## Что сделано по лабам
 
