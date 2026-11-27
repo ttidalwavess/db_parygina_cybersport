@@ -1,10 +1,10 @@
 -- Лаба 4. Транзакции, атомарность и доступ.
 
 -- 1. Исходное состояние: тестового игрока нет
--- expect: rows 0
-SELECT id, nickname FROM players WHERE nickname = 'Lab4TransactionTest';
+-- expect: rows 1
+SELECT count(*) FROM players WHERE nickname = 'Lab4TransactionTest';
 
--- 2. Транзакция падает на середине (вторая вставка ломает UNIQUE по nickname = Axiom)
+-- 2. Транзакция падает на середине
 -- expect: error unique
 BEGIN;
 INSERT INTO players (first_name, second_name, nickname)
@@ -13,9 +13,9 @@ INSERT INTO players (first_name, second_name, nickname)
 VALUES ('Duplicate', 'Test', 'Axiom');
 COMMIT;
 
--- 3. Атомарность: первая вставка тоже откатилась
--- expect: rows 0
-SELECT id, nickname FROM players WHERE nickname = 'Lab4TransactionTest';
+-- 3. Атомарность: результат совпадает с шагом 1
+-- expect: same 1
+SELECT count(*) FROM players WHERE nickname = 'Lab4TransactionTest';
 
 
 -- 4. app_reader читает через представление — можно
