@@ -50,24 +50,14 @@ RESET ROLE;
 -- 7. app_writer вызывает бизнес-операцию — можно
 BEGIN;
 SET LOCAL ROLE app_writer;
-DO $$
-DECLARE
-v_player_id integer;
-    v_role_id integer;
-    v_team_id integer;
-BEGIN
-SELECT id INTO v_player_id FROM players WHERE nickname = 'Sentinel';
-SELECT id INTO v_role_id FROM roles WHERE role_name = 'offlaner';
-SELECT id INTO v_team_id FROM teams WHERE team_name = 'OG';
-
-CALL add_player_to_team(v_player_id, v_role_id, v_team_id, '2027-01-01', '2027-04-01');
-END $$;
-RESET ROLE; -- Возвращаем права суперпользователя для проверки
+-- Передаем ID напрямую: Sentinel (51), offlaner (3), OG (1)
+CALL add_player_to_team(51, 3, 1, '2027-01-01', '2027-04-01');
+RESET ROLE;
 
 -- expect: rows 1
 SELECT count(*) FROM team_members
-WHERE player_id = (SELECT id FROM players WHERE nickname = 'Sentinel')
-  AND team_id   = (SELECT id FROM teams WHERE team_name = 'OG');
+WHERE player_id = 51
+  AND team_id   = 1;
 ROLLBACK;
 
 -- 8. app_writer меняет таблицу напрямую — нельзя
