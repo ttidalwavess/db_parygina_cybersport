@@ -47,6 +47,8 @@ CREATE OR REPLACE PROCEDURE add_player_to_team(
     p_end_date timestamptz
 )
 LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public, pg_temp
 AS $$
 BEGIN
 INSERT INTO team_members (
@@ -57,12 +59,12 @@ INSERT INTO team_members (
     end_play
 )
 VALUES (
-    p_player_id,
-    p_role_id,
-    p_team_id,
-    p_start_date,
-     p_end_date
-);
+           p_player_id,
+           p_role_id,
+           p_team_id,
+           p_start_date,
+           p_end_date
+       );
 
 RAISE NOTICE 'Игрок успешно добавлен в команду';
 END;
