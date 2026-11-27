@@ -50,15 +50,18 @@ RESET ROLE;
 -- 7. app_writer вызывает бизнес-операцию — можно
 BEGIN;
 SET LOCAL ROLE app_writer;
--- Передаем ID напрямую: Sentinel (51), offlaner (3), OG (1)
-CALL add_player_to_team(51, 3, 1, '2027-01-01', '2027-04-01');
-RESET ROLE;
 
+-- Вызываем бизнес-операцию (ID передаем напрямую, чтобы не трогать таблицы players/teams)
+CALL add_player_to_team(51, 3, 1, '2027-01-01', '2027-04-01');
+
+-- Проверяем результат через представление nickname_role (к которому у app_writer есть доступ)
 -- expect: rows 1
-SELECT count(*) FROM team_members
-WHERE player_id = 51
-  AND team_id   = 1;
-ROLLBACK;
+SELECT count(*) FROM nickname_role
+WHERE nickname = 'Sentinel'
+  AND role_name = 'offlaner'
+  AND team_name = 'OG';
+
+COMMIT;
 
 -- 8. app_writer меняет таблицу напрямую — нельзя
 -- expect: error permission
