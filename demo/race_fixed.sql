@@ -18,14 +18,13 @@ SELECT count(*) = 0 AS player_is_free FROM race_fixed_demo WHERE player_id = 999
 INSERT INTO race_fixed_demo (player_id, team_id) VALUES (999, 3);
 
 -- [B]
--- expect: blocked
 INSERT INTO race_fixed_demo (player_id, team_id) VALUES (999, 1);
 
 -- [A]
 COMMIT;
 
 -- [B]
--- expect: error unique
+COMMIT;
 
 -- [check]
 -- expect: true

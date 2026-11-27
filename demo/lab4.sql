@@ -33,25 +33,36 @@ RESET ROLE;
 -- 6. app_reader вызывает бизнес-операцию — нельзя
 -- expect: error permission
 SET ROLE app_reader;
-CALL add_player_to_team(
-    (SELECT id FROM players WHERE nickname = 'Sentinel'),
-    (SELECT id FROM roles WHERE role_name = 'offlaner'),
-    (SELECT id FROM teams WHERE team_name = 'OG'),
-    '2027-01-01', '2027-04-01'
-);
-RESET ROLE;
+DO $$
+DECLARE
+v_player_id integer;
+    v_role_id integer;
+    v_team_id integer;
+BEGIN
+SELECT id INTO v_player_id FROM players WHERE nickname = 'Sentinel';
+SELECT id INTO v_role_id FROM roles WHERE role_name = 'offlaner';
+SELECT id INTO v_team_id FROM teams WHERE team_name = 'OG';
 
+CALL add_player_to_team(v_player_id, v_role_id, v_team_id, '2027-01-01', '2027-04-01');
+END $$;
+RESET ROLE;
 
 -- 7. app_writer вызывает бизнес-операцию — можно
 -- expect: rows 1
 BEGIN;
 SET LOCAL ROLE app_writer;
-CALL add_player_to_team(
-    (SELECT id FROM players WHERE nickname = 'Sentinel'),
-    (SELECT id FROM roles WHERE role_name = 'offlaner'),
-    (SELECT id FROM teams WHERE team_name = 'OG'),
-    '2027-01-01', '2027-04-01'
-);
+DO $$
+DECLARE
+v_player_id integer;
+    v_role_id integer;
+    v_team_id integer;
+BEGIN
+SELECT id INTO v_player_id FROM players WHERE nickname = 'Sentinel';
+SELECT id INTO v_role_id FROM roles WHERE role_name = 'offlaner';
+SELECT id INTO v_team_id FROM teams WHERE team_name = 'OG';
+
+CALL add_player_to_team(v_player_id, v_role_id, v_team_id, '2027-01-01', '2027-04-01');
+END $$;
 SELECT count(*) FROM team_members
 WHERE player_id = (SELECT id FROM players WHERE nickname = 'Sentinel')
   AND team_id   = (SELECT id FROM teams WHERE team_name = 'OG');
@@ -70,15 +81,21 @@ SELECT * FROM players_audit;
 RESET ROLE;
 
 
--- 10. Транзакция + ROLLBACK
+-- 10.1. Транзакция: вставляем данные
 BEGIN;
 INSERT INTO players (first_name, second_name, nickname)
 VALUES ('Transaction', 'Test', 'Lab4RollbackTest');
+
+-- 10.2. Внутри транзакции данные видны
 -- expect: rows 1
-SELECT COUNT(*) FROM players WHERE nickname = 'Lab4RollbackTest';
+SELECT count(*) FROM players WHERE nickname = 'Lab4RollbackTest';
+
+-- 10.3. Откатываем транзакцию
 ROLLBACK;
+
+-- 10.4. После отката данных нет
 -- expect: rows 0
-SELECT COUNT(*) FROM players WHERE nickname = 'Lab4RollbackTest';
+SELECT count(*) FROM players WHERE nickname = 'Lab4RollbackTest';
 
 
 -- 11. Бизнес-правило: нельзя зарегистрировать команду на завершённый турнир
