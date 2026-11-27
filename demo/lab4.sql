@@ -48,7 +48,6 @@ END $$;
 RESET ROLE;
 
 -- 7. app_writer вызывает бизнес-операцию — можно
--- expect: rows 1
 BEGIN;
 SET LOCAL ROLE app_writer;
 DO $$
@@ -63,6 +62,9 @@ SELECT id INTO v_team_id FROM teams WHERE team_name = 'OG';
 
 CALL add_player_to_team(v_player_id, v_role_id, v_team_id, '2027-01-01', '2027-04-01');
 END $$;
+RESET ROLE; -- Возвращаем права суперпользователя для проверки
+
+-- expect: rows 1
 SELECT count(*) FROM team_members
 WHERE player_id = (SELECT id FROM players WHERE nickname = 'Sentinel')
   AND team_id   = (SELECT id FROM teams WHERE team_name = 'OG');
@@ -81,21 +83,22 @@ SELECT * FROM players_audit;
 RESET ROLE;
 
 
--- 10.1. Транзакция: вставляем данные
+
+
+-- 10. Транзакция + ROLLBACK
 BEGIN;
 INSERT INTO players (first_name, second_name, nickname)
 VALUES ('Transaction', 'Test', 'Lab4RollbackTest');
 
--- 10.2. Внутри транзакции данные видны
+-- Проверка, что внутри транзакции запись есть
 -- expect: rows 1
 SELECT count(*) FROM players WHERE nickname = 'Lab4RollbackTest';
 
--- 10.3. Откатываем транзакцию
 ROLLBACK;
 
--- 10.4. После отката данных нет
--- expect: rows 0
-SELECT count(*) FROM players WHERE nickname = 'Lab4RollbackTest';
+-- Проверка, что после отката записи нет (ожидаем true)
+-- expect: value true
+SELECT count(*) = 0 AS rolled_back FROM players WHERE nickname = 'Lab4RollbackTest';
 
 
 -- 11. Бизнес-правило: нельзя зарегистрировать команду на завершённый турнир
