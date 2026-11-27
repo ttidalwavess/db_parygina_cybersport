@@ -51,11 +51,12 @@ RESET ROLE;
 -- expect: rows 1
 BEGIN;
 SET LOCAL ROLE app_writer;
--- Вызываем бизнес-операцию
+-- Вызываем бизнес-операцию напрямую, без SELECT (у app_writer нет прав на таблицы)
+-- Sentinel = 51, offlaner = 3, OG = 1
 CALL add_player_to_team(51, 3, 1, '2027-01-01', '2027-04-01');
-RESET ROLE; -- Сбрасываем роль, чтобы чекер смог прочитать таблицу team_members
+RESET ROLE;
 
--- Проверяем результат (уже от имени суперпользователя)
+-- Проверяем результат уже от имени суперпользователя
 SELECT count(*) FROM team_members
 WHERE player_id = 51
   AND team_id   = 1;
